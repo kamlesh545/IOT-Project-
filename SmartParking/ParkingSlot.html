@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Parking</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script type="text/javascript">
+			var request;
+			// Initialize non IE browsers.
+			if (window.XMLHttpRequest) {
+				request = new XMLHttpRequest();
+			}
+			// Initialize IE browsers.
+			else {
+				request = new ActiveXObject( Microsoft.XMLHTTP);
+			}
+			// Method is either GET or POST, data file
+			function myFunction(){
+			request.open("GET", "https://afternoon-sierra-25379.herokuapp.com/todos/1");
+			
+			request.onreadystatechange = function () {
+				if (request.status === 200 && request.readyState === 4){
+					var modify = document.getElementsByTagName('li');
+					var aa=JSON.parse(request.responseText);
+					console.log(aa.todo[0].flag) ;
+					myColourFunction(aa.todo[0].flag);
+					function myColourFunction(x){
+							if (x==0){
+							modify[0].innerHTML = "Parking slot is not free";
+    						var canvas = document.getElementById("myCanvas");
+							var ctx = canvas.getContext("2d");
+							ctx.fillStyle = "#FF0000";
+							ctx.fillRect(0,0,350,400);
+							}
+							if (x==1){
+							modify[0].innerHTML = "Parking slot is free";
+							var canvas = document.getElementById("myCanvas");
+                            var ctx = canvas.getContext("2d");
+							ctx.fillStyle = "#00ff00";
+							ctx.fillRect(0,0,350,400);
+							}
+					}
+				}
+			};
+			request.send(); 
+		}
+		setInterval(function(){myFunction();},2000);
+		</script>
+	</head>
+	<body style="text-align: center;">
+		<h1>Parking Slot 1</h1>
+		<ul>
+			<li>two</li>
+		</ul>
+		
+<canvas id="myCanvas" width="300" height="400"
+style="border:1px solid #c3c3c3;">
+	</body>
+</html>
